@@ -11,15 +11,13 @@ app.get('/static', (req, res) => {
 });
 
 app.get('/dynamic', (req, res) => {
-    const a = parseFloat(req.query.a);
-    const b = parseFloat(req.query.b);
-    const c = parseFloat(req.query.c);
+    const values = ['a', 'b', 'c'].map(key => parseFloat(req.query[key]));
 
-    if (isNaN(a) || isNaN(b) || isNaN(c)) {
+    if (values.some(isNaN)) {
         return res.json({ header: "Error" });
     }
 
-    const result = (a * b * c) / 3;
+    const result = (values[0] * values[1] * values[2]) / 3;
     res.json({ header: "Calculated", body: result.toString() });
 });
 
